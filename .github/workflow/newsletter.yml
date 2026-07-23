@@ -3,7 +3,7 @@ name: Valencia Events Page
 on:
   schedule:
     - cron: "0 7 * * 1"  # every Monday 07:00 UTC
-  workflow_dispatch: {}
+  workflow_dispatch: 
 
 permissions:
   contents: write
