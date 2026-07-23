@@ -1,0 +1,223 @@
+# Each source: name, url (agenda/events page), category, type (auto-detected if omitted)
+# type: html | rss | ics  (auto = try jsonld -> rss -> ics -> generic html)
+sources:
+  # Official
+  - name: Visit Valencia
+    url: https://www.visitvalencia.com/agenda-valencia
+    category: official
+    llm_extract: true
+  - name: Ajuntament de Valencia - Agenda
+    url: https://www.valencia.es/cas/agenda-de-la-ciudad
+    category: official
+  - name: Cultural Valencia
+    url: https://culturalvalencia.es/agenda/
+    category: official
+  - name: Generalitat Valenciana - Cultura
+    url: https://ivaj.gva.es/es/actividades-culturales
+    category: official
+
+  # Local magazines & event sites
+  - name: Valenciabonita
+    url: https://valenciabonita.es/agenda/
+    category: magazine
+    llm_extract: true
+  - name: Valencia Secreta
+    url: https://valenciasecreta.com/agenda/
+    category: magazine
+    llm_extract: true
+  - name: 24/7 Valencia
+    url: https://247valencia.com/events/
+    category: magazine
+    llm_extract: true
+  - name: Time Out Valencia
+    url: https://www.timeout.com/es/valencia
+    category: magazine
+  - name: Love Valencia
+    url: https://www.lovevalencia.com/agenda/
+    category: magazine
+    llm_extract: true
+
+  # Museums & cultural institutions
+  - name: CaixaForum Valencia
+    url: https://caixaforum.org/es/valencia/actividades
+    category: museum
+  - name: Museo de Bellas Artes
+    url: https://museobellasartesvalencia.gva.es/es/actividades
+    category: museum
+  - name: Bombas Gens Centre d'Arts
+    url: https://www.bombasgens.com/agenda/
+    category: museum
+
+  # Music & performance venues
+  - name: Palau de la Musica
+    url: https://palauvalencia.com/programacio-i-vendes/
+    category: music
+  - name: Palau de les Arts
+    url: https://www.lesarts.com/en/programme.html
+    category: music
+  - name: Matisse Club
+    url: https://www.matisseclub.com/programacion.html
+    category: music
+
+  # Cabanyal / Canyamelar
+  - name: Teatre El Musical (TEM)
+    url: https://www.elmusical.es/programacion/
+    category: cabanyal
+  - name: La Mutant
+    url: https://www.lamutant.com/
+    category: cabanyal
+    llm_extract: true
+  - name: Centro Cultural Escorxador
+    url: https://www.valencia.es/es/cultura/centre-cultural-escorxador
+    category: cabanyal
+  - name: Centro Cultural Reina 121
+    url: https://www.valencia.es/es/cultura/centre-cultural-reina121
+    category: cabanyal
+  - name: Fabrica de Hielo
+    url: https://www.lafabricadehielo.net/
+    category: cabanyal
+  - name: Cabanyal Intim Festival
+    url: https://www.cabanyalintim.com/
+    category: cabanyal
+    llm_extract: true
+  - name: Las Naves
+    url: https://valenciainnovationcapital.com/programacion/?lang=val
+    category: cabanyal
+
+  # El Grau / Marina
+  # Note: Marina de Valencia rebranded "Marina Port Valencia" in 2025 (old
+  # lamarinadevalencia.com domain is dead). Tinglado 2/4, Marina Norte, and
+  # Base One were confirmed to have no independent public event calendar of
+  # their own (verified via web research) — removed rather than left as
+  # permanently-broken duplicates. Veles e Vents turned out to be run
+  # independently, not under the marina's own site.
+  - name: Marina Port Valencia
+    url: https://marinaportvalencia.es/
+    category: grau
+    llm_extract: true
+  - name: Veles e Vents
+    url: https://veleseventsvalencia.es/agenda/
+    category: grau
+    llm_extract: true
+  - name: Edem
+    url: https://www.edem.eu/actualidad/eventos/
+    category: grau
+  - name: Lanzadera
+    url: https://lanzadera.es/eventos/
+    category: grau
+    llm_extract: true
+  - name: Valencia Boat Show
+    url: https://valenciaboat.com/es
+    category: grau
+
+  # Ayora / Camins al Grau
+  # Palauet d'Ayora and Universidad Popular Ayora are the same organization
+  # (Universitat Popular de Valencia runs both) — merged into one entry.
+  # Currently blocked (403) by that site's bot detection.
+  - name: Universidad Popular Ayora
+    url: http://universitatpopular.com/espacio-sociocultural-palauet-daiora/
+    category: ayora
+  - name: Centro Cultural Aben Al-Abbar
+    url: https://cultural.valencia.es/es/espais/centro-cultural-aben-al-abbar/
+    category: ayora
+
+  # Universities
+  - name: Universitat de Valencia
+    url: https://www.uv.es/uvweb/universitat/es/agenda
+    category: university
+  - name: Universitat Politecnica de Valencia
+    url: https://www.upv.es/pls/oalu/sic_age.AgendaUPV
+    category: university
+    upv_agenda: true
+    public_only: true
+  - name: ESIC Valencia
+    url: https://www.esic.edu/eventos-esic-business-marketing-school
+    category: university
+  - name: Berklee Valencia
+    url: https://valencia.berklee.edu/events/events-and-concerts
+    category: university
+
+  # Consulates & cultural associations
+  - name: German Consulate Valencia
+    url: https://valencia.diplo.de/es-es/aktuelles
+    category: consulate
+  - name: French Consulate Valencia
+    url: https://valencia.consulfrance.org/
+    category: consulate
+  - name: Italian Consulate Valencia
+    url: https://consvalencia.esteri.it/it/
+    category: consulate
+  - name: British Consulate Valencia
+    url: https://www.gov.uk/world/organisations/british-consulate-valencia
+    category: consulate
+  - name: US Consulate Valencia
+    url: https://es.usembassy.gov/embassy-consulates/valencia/
+    category: consulate
+  - name: Polish Consulate Valencia
+    url: https://www.gov.pl/web/spain
+    category: consulate
+  - name: Romanian Consulate Valencia
+    url: https://valencia.mae.ro/
+    category: consulate
+  # Alliance Francaise Valencia's domain is dead — French cultural
+  # programming in Valencia is now run by the Institut francais instead.
+  # Societa Dante Alighieri Valencia: no active committee found in Valencia
+  # (network has committees elsewhere in Spain, none here) — removed.
+  - name: Institut Francais Valencia
+    url: https://www.institutfrancais.es/valencia/eventos/
+    category: consulate
+  - name: Instituto Confucio Valencia
+    url: https://www.uv.es/uvweb/instituto-confucio-uv/es/-1285922222423/Esdeveniment.html?p2=0&p3=dia
+    category: consulate
+  - name: Instituto Camoes Valencia
+    url: https://www.instituto-camoes.pt/en/component/dpcalendar/location/446
+    category: consulate
+
+  # Startup & professional communities
+  - name: Startup Valencia
+    url: https://startupvalencia.org/events-calendar/
+    category: startup
+    llm_extract: true
+  - name: Valencia Digital Summit
+    url: https://vds.tech/
+    category: startup
+    llm_extract: true
+  - name: Innsomnia
+    url: https://innsomnia.es/eventos/
+    category: startup
+    llm_extract: true
+  - name: Marina de Empresas
+    url: https://marinadeempresas.es/eventos/
+    category: startup
+    llm_extract: true
+  - name: Wayco
+    url: https://wayco.es/wp-json/tribe/events/v1/events
+    category: startup
+  - name: Google Developer Groups Valencia
+    url: https://gdg.community.dev/gdg-valencia/
+    category: startup
+
+  # Community organizations
+  # Replaces individually hand-picked Meetup groups (Valencia AI, Python
+  # Valencia, Valencia Language Exchange, Valencia Nomads): this discovers
+  # events from EVERY Meetup group in Valencia via the location-based
+  # search page, not just a fixed list, then drops recurring ones using the
+  # page's own "Every ..." label on each event card.
+  - name: Meetup Valencia
+    url: https://www.meetup.com/find/?location=es--Valencia
+    category: community
+    meetup_discovery: true
+  # Intercultural Spain: no organization by this name found operating in
+  # Valencia (appears defunct) — removed.
+  - name: Rotary Valencia
+    url: https://www.rotaryclubvalencia.org/eventos/
+    category: community
+  - name: Lions Club Valencia
+    url: https://lionsclubs.org/
+    category: community
+  - name: Toastmasters Valencia
+    url: https://www.toastmasters.org/find-a-club
+    category: community
+  - name: Internations Valencia
+    url: https://www.internations.org/valencia-expats
+    category: community
