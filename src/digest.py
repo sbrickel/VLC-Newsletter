@@ -130,16 +130,27 @@ def html_header(count: int) -> list[str]:
         # opts the message out so the colors render as designed.
         "<meta name='color-scheme' content='light'>",
         "<meta name='supported-color-schemes' content='light'>",
+        # This is a real hosted page now (not an email), so a proper
+        # stylesheet + media query works — narrow screens get the card's
+        # padding/corners stripped so the content reads edge-to-edge
+        # instead of being squeezed by desktop-sized margins.
+        "<style>",
+        "@media (max-width: 480px) {",
+        "  .vw-outer-td { padding: 10px 0 !important; }",
+        "  .vw-card { border-radius: 0 !important; }",
+        "  .vw-content-td { padding-left: 16px !important; padding-right: 16px !important; }",
+        "}",
+        "</style>",
         "</head>",
         f"<body style='margin:0;padding:0;background:{COLOR_BG};'>",
         f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0' "
         f"style='background:{COLOR_BG};'>",
-        "<tr><td align='center' style='padding:24px 12px;'>",
+        "<tr><td align='center' class='vw-outer-td' style='padding:24px 12px;'>",
         f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0' "
-        f"style='max-width:600px;background:{COLOR_CARD};border-radius:16px;"
+        f"class='vw-card' style='max-width:600px;background:{COLOR_CARD};border-radius:16px;"
         f"overflow:hidden;font-family:{FONT_SANS};'>",
 
-        "<tr><td style='padding:30px 28px 18px 28px;'>",
+        "<tr><td class='vw-content-td' style='padding:30px 28px 18px 28px;'>",
         f"<div style='width:44px;height:4px;background:{COLOR_ORANGE};"
         "border-radius:2px;margin-bottom:16px;'></div>",
         f"<h1 style=\"margin:0 0 8px 0;font-family:{FONT_SERIF};"
@@ -162,7 +173,7 @@ def html_header(count: int) -> list[str]:
 def html_footer() -> list[str]:
 
     return [
-        "<tr><td style='padding:8px 28px 30px 28px;'>",
+        "<tr><td class='vw-content-td' style='padding:8px 28px 30px 28px;'>",
         f"<div style='border-top:1px solid {COLOR_DIVIDER};padding-top:16px;'>",
         f"<p style='margin:0;font-size:12px;color:{COLOR_MUTED};'>",
         "Generated automatically.",
@@ -173,6 +184,28 @@ def html_footer() -> list[str]:
         "</table>",  # inner card
         "</td></tr>",
         "</table>",  # outer wrapper
+        # The page only regenerates weekly, so by midweek the list still
+        # starts on the generation day — jump straight to today's section
+        # (or the nearest upcoming one) instead of leaving already-elapsed
+        # days at the top for a visitor to scroll past.
+        "<script>",
+        "(function () {",
+        "  function pad(n) { return String(n).padStart(2, '0'); }",
+        "  var now = new Date();",
+        "  var today = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());",
+        "  var target = document.getElementById('day-' + today);",
+        "  if (!target) {",
+        "    var upcoming = Array.prototype.slice.call(document.querySelectorAll('[id^=\"day-\"]'))",
+        "      .filter(function (el) { return el.id.slice(4) >= today; })",
+        "      .sort(function (a, b) { return a.id < b.id ? -1 : 1; });",
+        "    target = upcoming[0];",
+        "  }",
+        "  if (target) {",
+        "    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+        "    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });",
+        "  }",
+        "})();",
+        "</script>",
         "</body>",
         "</html>",
     ]
@@ -200,7 +233,7 @@ def build_calendar_grid(events, today, window_end):
     grid_end = window_end + timedelta(days=(6 - window_end.weekday()))
 
     html = [
-        "<tr><td style='padding:4px 28px 6px 28px;'>",
+        "<tr><td class='vw-content-td' style='padding:4px 28px 6px 28px;'>",
         f"<table role='presentation' cellpadding='0' cellspacing='0' width='100%' "
         f"style='border-collapse:separate;border-spacing:0;table-layout:fixed;"
         f"border:1px solid {COLOR_DIVIDER};border-radius:10px;overflow:hidden;'>",
@@ -333,7 +366,7 @@ def build_digest(events):
     html = html_header(len(upcoming))
     html.extend(build_calendar_grid(upcoming, today, window_end))
 
-    html.append(f"<tr><td style='padding:10px 28px 4px 28px;'>")
+    html.append(f"<tr><td class='vw-content-td' style='padding:10px 28px 4px 28px;'>")
 
     # Grouped by day (not category) so the calendar's day links land on a
     # single section containing every event for that date, sorted by date —

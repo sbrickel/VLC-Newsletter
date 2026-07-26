@@ -153,9 +153,6 @@ sources:
   - name: US Consulate Valencia
     url: https://es.usembassy.gov/embassy-consulates/valencia/
     category: consulate
-  - name: Polish Consulate Valencia
-    url: https://www.gov.pl/web/spain
-    category: consulate
   - name: Romanian Consulate Valencia
     url: https://valencia.mae.ro/
     category: consulate
